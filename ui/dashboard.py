@@ -46,15 +46,42 @@ def render_dashboard(
 
     st.subheader("Learning Journey")
 
-    st.markdown(
-        f"""
-- **Foundation:** Days {phase_ranges['foundation_start']}-{phase_ranges['foundation_end']}
+    c1, c2, c3 = st.columns(3)
 
-- **Deep Dive:** Days {phase_ranges['deep_dive_start']}-{phase_ranges['deep_dive_end']}
+    with c1:
+        st.info(
+            f"""
+### Foundation
 
-- **Practice:** Days {phase_ranges['practice_start']}-{phase_ranges['practice_end']}
+**Days {phase_ranges['foundation_start']} - {phase_ranges['foundation_end']}**
+
+Build core concepts and establish strong fundamentals before moving to advanced topics.
 """
-    )
+        )
+
+    with c2:
+        st.warning(
+            f"""
+### Deep Dive
+
+**Days {phase_ranges['deep_dive_start']} - {phase_ranges['deep_dive_end']}**
+
+Focus on mastering complex concepts, solving problems, and strengthening understanding.
+"""
+        )
+
+    with c3:
+        st.success(
+            f"""
+### Practice
+
+**Days {phase_ranges['practice_start']} - {phase_ranges['practice_end']}**
+
+Revision, active recall, mock assessments, and long-term retention.
+"""
+        )
+
+    st.markdown("---")
 
     st.download_button(
         "Download Study Plan",
