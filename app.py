@@ -19,6 +19,20 @@ st.title("AI Smart Study Planner")
 st.write("Generate cognitive-science-backed study plans using a local Ollama model.")
 st.markdown("---")
 
+def get_available_models():
+    try:
+        models = ollama.list()
+
+        names = []
+
+        for model in models["models"]:
+            names.append(model["model"])
+
+        return names
+
+    except:
+        return ["llama3"]
+
 with st.sidebar:
     st.header("Study Configuration")
 
@@ -33,11 +47,18 @@ with st.sidebar:
         ["Beginner", "Intermediate", "Advanced"]
     )
 
+    available_models = get_available_models()
+
+    model_name = st.selectbox(
+        "AI Model",
+        available_models
+    )
+
     generate = st.button("Generate Study Plan", use_container_width=True)
 
 if not generate:
     c1, c2 = st.columns(2)
-    c1.metric("Model", "Llama 3")
+    c1.metric("Model", model_name)
     c2.metric("Mode", "Local")
     st.info("Configure your study plan from the sidebar and click Generate.")
     st.stop()
@@ -115,7 +136,7 @@ Rules:
 with st.spinner("🧠 Generating study roadmap..."):
     try:
         response = ollama.chat(
-            model="llama3",
+            model=model_name,
             messages=[{"role": "user", "content": prompt}]
         )
 
